@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Semáforo</title>
+  <style>
+    body {
+      background-color: rgba(15, 3, 19, 0.726);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .semaforo {
+      width: 120px;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+    .luz-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      opacity: 0.2;
+      filter: grayscale(100%) brightness(0.3); 
+      transition: all 0.4s ease;
+    }
+    .luz-img.aceso {
+      opacity: 1;
+      filter: grayscale(0%) brightness(1) drop-shadow(0 0 18px rgba(255, 255, 255, 1));
+    }
+  </style>
+</head>
+<body>
+
+  <div class="semaforo">
+    <img id="luz-vermelha" class="luz-img" src="luzVermelha.png" alt="Luz Vermelha">
+    <img id="luz-amarela" class="luz-img" src="luzAmarela.png" alt="Luz Amarela">
+    <img id="luz-verde" class="luz-img" src="luzVerde.png" alt="Luz Verde">
+  </div>
+
+  <script>
+    const imgVermelha = document.getElementById('luz-vermelha');
+    const imgAmarela = document.getElementById('luz-amarela');
+    const imgVerde = document.getElementById('luz-verde');
+
+    const esperar = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    function apagarTodas() {
+      imgVermelha.classList.remove('aceso');
+      imgAmarela.classList.remove('aceso');
+      imgVerde.classList.remove('aceso');
+    }
+
+    async function cicloSemaforo() {
+      while (true) {
+        apagarTodas();
+        imgVermelha.classList.add('aceso');
+        await esperar(6000);
+        apagarTodas();
+        imgVerde.classList.add('aceso');
+        await esperar(6000);
+        apagarTodas();
+        imgAmarela.classList.add('aceso');
+        await esperar(3000);
+      }
+    }
+    cicloSemaforo();
+  </script>
+</body>
+</html>
